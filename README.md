@@ -17,6 +17,10 @@ Getting from that point to true embodiment can be done for example as follows:
 
 The goal is to get a proof-of-concept done, nothing too fancy. For this, we can leverage simple Farama Gymnasium environments: https://gymnasium.farama.org/
 
+The proof-of-concept will demonstrate:
+- A neural agent learning common sense based embodied tasks from chatbot demonstrations.
+- It demonstrates that an LLM chatbot prompt-induced emulated persona can be "extracted" out of the auto-regressive text prediction substrate and deployed into an embodiment.
+
 Requirements for the embodiment:
 - Needs to have at least one proper sense which can be projected to a textual description.
 - Needs to have an action space which can be controlled by text.
@@ -34,4 +38,4 @@ Join the Discord server and introduce yourself. Then do what you want. PRs and W
 
 - Discord server: https://discord.com/invite/hzD7NDz8sY
 
-All this started from this musing: https://www.linkedin.com/feed/update/urn:li:activity:7034227075800576001/
+All this started from this musing (see comments as well): https://www.linkedin.com/feed/update/urn:li:activity:7034227075800576001/
