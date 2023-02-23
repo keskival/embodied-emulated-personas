@@ -13,6 +13,19 @@ Getting from that point to true embodiment can be done for example as follows:
 - Hook up the LLM chatbot to this body, and let it perform a lot of tasks in that body and environment.
 - Train the neural agent with imitation learning based on the LLM chatbot teaching.
 
+## Plan
+
+The goal is to get a proof-of-concept done, nothing too fancy. For this, we can leverage simple Farama Gymnasium environments: https://gymnasium.farama.org/
+
+Requirements for the embodiment:
+- Needs to have at least one proper sense which can be projected to a textual description.
+- Needs to have an action space which can be controlled by text.
+- Needs to be simple enough to be controlled by a relatively small neural network.
+
+Requirements for the environment:
+- Needs to generate common sense tasks in large numbers.
+- The tasks need to be describeable to chatbots which can utilize their common sense and judgement to perform well.
+
 ## How To Take Part
 
 Join the Discord server and introduce yourself. Then do what you want. PRs and Wiki contributions are welcome.
