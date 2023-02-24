@@ -35,6 +35,25 @@ Requirements for the environment:
 - Needs to generate common sense tasks in large numbers.
 - The tasks need to be describeable to chatbots which can utilize their common sense and judgement to perform well.
 
+Possible environments:
+
+### [Blackjack](https://gymnasium.farama.org/environments/toy_text/blackjack/)
+
+Benefits:
+- Simple, won't require a huge neural network or long training.
+- Can be described simply as text.
+- Shows characteristics of the persona in how much risk they tolerate. This can be varied with prompting.
+Issues:
+- Doesn't really add a proper extra sense, as the observations can be fully described in text.
+
+### [CartPole](https://gymnasium.farama.org/environments/classic_control/cart_pole/)
+
+Benefits:
+- Simple.
+- Does have features not easily described in text.
+Issues:
+- A bit challenging to project the observation space into text, but I suppose that's the whole point.
+
 ## How To Take Part
 
 Join the Discord server and introduce yourself. Then do what you want. PRs and Wiki contributions are welcome.
