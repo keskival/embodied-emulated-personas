@@ -43,6 +43,7 @@ Benefits:
 - Simple, won't require a huge neural network or long training.
 - Can be described simply as text.
 - Shows characteristics of the persona in how much risk they tolerate. This can be varied with prompting.
+
 Issues:
 - Doesn't really add a proper extra sense, as the observations can be fully described in text.
 
@@ -51,6 +52,7 @@ Issues:
 Benefits:
 - Simple.
 - Does have features not easily described in text.
+
 Issues:
 - A bit challenging to project the observation space into text, but I suppose that's the whole point.
 
