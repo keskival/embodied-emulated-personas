@@ -4,7 +4,8 @@ A project space for Embodied Emulated Personas - Embodied neural networks traine
 
 The aim is to demonstrate that an LLM chatbot prompt-induced emulated persona can be "extracted" out of the auto-regressive text prediction substrate and deployed into an embodiment.
 
-
+> "Everyone was in favor of saving Hitler's brain. But when you put it in the body of a great white shark. Ooo, suddenly you go too far!"
+> ―Professor Farnsworth
 
 LLM chatbots exhibit pseudo-embodiment in their prompt induced emulated personas. These personas can be very intelligent and learn from experience. They behave as if they were embodied based on the textual description of scenarios, although they aren't and they generally struggle in understanding physical spaces and mechanical common sense.
 
