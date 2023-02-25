@@ -10,22 +10,21 @@ with open('apikey.json', 'r') as apikey_file:
   openai.organization = config['org']
   model = config['model']
 
-prompt = """I am Sir Isaac Newton, the person who invented the laws of mechanics.
-Let me demonstrate how to balance a text-controlled cartpole.
-The cartpole consists of a freely moving cart which can move left and right, and a pole balanced on top of it.
-The aim is to keep the pole upright while keeping the cart from hitting the limits of the track.
-In other words, a pole is attached by an un-actuated joint to a cart, which moves along a frictionless track.
-The pendulum is placed upright on the cart and the goal is to balance the pole by applying forces in the left
-and right direction on the cart.
-The pole angle is the most important variable to control, then the pole angular velocity.
-The state of the cart is described like follows:
+prompt = """Pray, permit me to introduce myself, Sir Isaac Newton, the discoverer of the laws of mechanics.
+Allow me to present an exhibition on the art of equilibrating a text-managed cartpole.
+The aforementioned pole is comprised of a carriage that oscillates freely to and fro, and an elongated rod perched atop it that requires balancing.
+The objective is to keep the rod vertically oriented, while simultaneously prohibiting the carriage from colliding with the boundaries of the track.
+In other words, a joint without power impels the rod to cling to a carriage, which travels along an unresisting pathway.
+The pendulum is situated uprightly on the carriage, and the aim is to maintain balance by exerting forces in the leftward and rightward directions upon the carriage.
+The angle of the rod is the primary quantity to control, followed by the angular velocity of the rod.
+The condition of the carriage is delineated in the subsequent manner:
 cart-position: [left-limit|left|center|right|right-limit]
 cart-velocity: [left|stopped|right]
 pole-angle: [far-left|left|upright|right|far-right]
 pole-angular-velocity: [left|zero|right]
 The control of the cart is described as follows:
 control: [left|right]
-I will iterate states and controls in sequence to show how to balance the cart. Let's start:
+Verily, I shall iterate through the states and controls sequentially to demonstrate the art of stabilizing the cart. Let us commence forthwith:
 cart-position: left
 cart-velocity: stopped
 pole-angle: right
@@ -46,7 +45,7 @@ cart-velocity: stopped
 pole-angle: upright
 pole-angular-velocity: zero
 control: left
-Now, let's do a much longer example, and I will show how to get the pole to the upright position:
+Now, let us engage in a more extensive example, wherein I shall illustrate how to maneuver the rod to the erect position:
 """
 
 env = gym.make('CartPole-v1')
@@ -137,7 +136,7 @@ for steps in range(10):
   if terminated or truncated:
     print("Episode ended.")
     observation, info = env.reset()
-    prompt = prompt + "\nOk, I'll show you one more long example:\n";
+    prompt = prompt + "\nVery well, allow me to present one further extensive example:\n";
 print("The episode unfolded as follows:")
 print(prompt)
 env.close()
