@@ -16,7 +16,7 @@ to a file named `apikey.json` containing following:
 
 ## Output
 
-With `davinci-003` I get it to balance the pole angular speed to zero, but not quite managing to lift up the pole to upright position. Note that the first four controls are manually written prompt examples and don't correspond to the real Gym game:
+With `davinci-003` it manages to get the pole to the upright position at least temporarily. Note that the first four controls are manually written prompt examples and don't correspond to the real Gym game:
 ```
 I am Sir Isaac Newton, the person who invented the laws of mechanics.
 Let me demonstrate how to balance a text-controlled cartpole.
@@ -54,7 +54,7 @@ cart-velocity: stopped
 pole-angle: upright
 pole-angular-velocity: zero
 control: left
-<<THE REAL GAME STARTS HERE>>
+Now, let's do a much longer example, and I will show how to get the pole to the upright position:
 cart-position: center
 cart-velocity: stopped
 pole-angle: right
@@ -64,45 +64,45 @@ cart-position: center
 cart-velocity: stopped
 pole-angle: right
 pole-angular-velocity: left
-control: left
-cart-position: center
-cart-velocity: stopped
-pole-angle: right
-pole-angular-velocity: zero
 control: right
 cart-position: center
-cart-velocity: stopped
+cart-velocity: right
+pole-angle: right
+pole-angular-velocity: left
+control: right
+cart-position: center
+cart-velocity: right
 pole-angle: right
 pole-angular-velocity: left
 control: left
 cart-position: center
-cart-velocity: stopped
-pole-angle: right
-pole-angular-velocity: zero
-control: right
-cart-position: center
-cart-velocity: stopped
-pole-angle: right
+cart-velocity: right
+pole-angle: upright
 pole-angular-velocity: left
 control: left
 cart-position: center
 cart-velocity: stopped
-pole-angle: right
-pole-angular-velocity: zero
+pole-angle: upright
+pole-angular-velocity: left
 control: right
 cart-position: center
-cart-velocity: stopped
-pole-angle: right
+cart-velocity: right
+pole-angle: upright
 pole-angular-velocity: left
 control: left
 cart-position: center
 cart-velocity: stopped
-pole-angle: right
-pole-angular-velocity: zero
+pole-angle: left
+pole-angular-velocity: left
 control: right
 cart-position: center
-cart-velocity: stopped
-pole-angle: right
-pole-angular-velocity: zero
+cart-velocity: right
+pole-angle: left
+pole-angular-velocity: left
 control: left
+cart-position: center
+cart-velocity: stopped
+pole-angle: left
+pole-angular-velocity: left
+control: right
 ```

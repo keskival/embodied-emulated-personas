@@ -46,6 +46,7 @@ cart-velocity: stopped
 pole-angle: upright
 pole-angular-velocity: zero
 control: left
+Now, let's do a much longer example, and I will show how to get the pole to the upright position:
 """
 
 env = gym.make('CartPole-v1')
