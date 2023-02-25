@@ -14,7 +14,7 @@ with open('apikey.json', 'r') as apikey_file:
   openai.organization = config['org']
   model = config['model']
 
-prompt = """Pray, permit me to introduce myself, Sir Isaac Newton, the discoverer of the laws of mechanics.
+initial_prompt = """Pray, permit me to introduce myself, Sir Isaac Newton, the discoverer of the laws of mechanics.
 Allow me to present an exhibition on the art of equilibrating a text-managed cartpole.
 The aforementioned pole is comprised of a carriage that oscillates freely to and fro, and an elongated rod perched atop it that requires balancing.
 The objective is to keep the rod vertically oriented, while simultaneously prohibiting the carriage from colliding with the boundaries of the track.
@@ -63,24 +63,10 @@ cart-position: center
 cart-velocity: rightwards
 pole-angle: upright
 pole-angular-velocity: leftwards
-push-cart: left
-cart-position: center
-cart-velocity: stopped
-pole-angle: left
-pole-angular-velocity: leftwards
-push-cart: right
-cart-position: center
-cart-velocity: rightwards
-pole-angle: left
-pole-angular-velocity: leftwards
-push-cart: left
-cart-position: center
-cart-velocity: stopped
-pole-angle: left
-pole-angular-velocity: leftwards
-push-cart: right
 Now, let us engage in a more extensive example, wherein I shall illustrate how to maneuver the rod to the erect position:
 """
+
+prompt = initial_prompt
 
 env = gym.make('CartPole-v1', render_mode='rgb_array')
 
@@ -143,6 +129,7 @@ pole-angular-velocity: {pole_angular_velocity_text}
 observation, info = env.reset(seed=42)
 states = []
 actions = []
+prompts = []
 
 run_name = datetime.now()
 os.makedirs(f"outputs/{run_name}", exist_ok=True)
@@ -187,15 +174,19 @@ for step in range(FRAMES):
   if terminated or truncated:
     print("Episode ended.")
     observation, info = env.reset()
-    prompt = prompt + "\nI failed. Very well, allow me to present one further extensive example:\n";
+    prompts.append(prompt)
+    prompt = initial_prompt;
   # Open AI rate limit of one request per second, 60 / minute.
   time.sleep(1)
-print("The episode unfolded as follows:")
-print(prompt)
+  with open(f"outputs/{run_name}/prompts.json", "w") as promptsfile:
+    promptsfile.write(json.dumps(prompts))
+prompts.append(prompt)
+print("The episodes unfolded as follows:")
+print(prompts)
 env.close()
 
 with open(f"outputs/{run_name}/sequence.json", "w") as sequence:
   sequence.write(json.dumps(list(zip(states, actions))))
 
-with open(f"outputs/{run_name}/prompt.txt", "w") as prompt:
-  prompt.write(prompt)
+with open(f"outputs/{run_name}/prompts.json", "w") as promptsfile:
+  promptsfile.write(json.dumps(prompts))
