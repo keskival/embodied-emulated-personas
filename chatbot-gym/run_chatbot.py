@@ -16,11 +16,11 @@ with open('apikey.json', 'r') as apikey_file:
 
 initial_prompt = """Pray, permit me to introduce myself, Sir Isaac Newton, the discoverer of the laws of mechanics.
 Allow me to present an exhibition on the art of equilibrating a text-managed cartpole.
-The aforementioned pole is comprised of a carriage that oscillates freely to and fro, and an elongated rod perched atop it that requires balancing.
-The objective is to keep the rod vertically oriented, while simultaneously prohibiting the carriage from colliding with the boundaries of the track.
-In other words, a joint without power impels the rod to cling to a carriage, which travels along an unresisting pathway.
+The aforementioned pole is comprised of a carriage that oscillates freely to and fro, and an elongated pole perched atop it that requires balancing.
+The objective is to keep the pole vertically oriented, while simultaneously prohibiting the carriage from colliding with the boundaries of the track.
+In other words, a joint without power impels the pole to cling to a carriage, which travels along an unresisting pathway.
 The pendulum is situated uprightly on the carriage, and the aim is to maintain balance by exerting forces in the leftward and rightward directions upon the carriage.
-The angle of the rod is the primary quantity to control, followed by the angular velocity of the rod.
+The angle of the pole is the primary quantity to control, followed by the angular velocity of the pole.
 The condition of the carriage is delineated in the subsequent manner:
 cart-position: [left-limit|left|center|right|right-limit]
 cart-velocity: [leftwards|stopped|rightwards]
@@ -28,7 +28,7 @@ pole-angle: [far-left|left|upright|right|far-right]
 pole-angular-velocity: [leftwards|zero|rightwards]
 The control of the cart is described as follows:
 push-cart: [left|right]
-Verily, I shall iterate through the states and controls sequentially to demonstrate the art of stabilizing the cart. Let us commence forthwith:
+Verily, I shall iterate through the states and controls sequentially to demonstrate the art of stabilizing the pole angle. Let us commence forthwith:
 cart-position: center
 cart-velocity: stopped
 pole-angle: right
@@ -63,7 +63,7 @@ cart-position: center
 cart-velocity: rightwards
 pole-angle: upright
 pole-angular-velocity: leftwards
-Now, let us engage in a more extensive example, wherein I shall illustrate how to maneuver the rod to the erect position:
+Now, let us engage in a more extensive example, wherein I shall illustrate how to maneuver the pole to the erect position with an upright angle:
 """
 
 prompt = initial_prompt
