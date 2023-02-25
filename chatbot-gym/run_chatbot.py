@@ -21,49 +21,49 @@ The objective is to keep the pole vertically oriented, while simultaneously proh
 In other words, a joint without power impels the pole to cling to a carriage, which travels along an unresisting pathway.
 The pendulum is situated uprightly on the carriage, and the aim is to maintain balance by exerting forces in the leftward and rightward directions upon the carriage.
 The angle of the pole is the primary quantity to control, followed by the angular velocity of the pole.
-Whenever the angle of the pole is towards the right, I shall push the cart towards the right to make the pole arise upwards, and vice versa.
 The condition of the carriage is delineated in the subsequent manner:
 cart-position: [left-limit|left|center|right|right-limit]
 cart-velocity: [leftwards|stopped|rightwards]
-pole-angle: [far-left|left|upright|right|far-right]
 pole-angular-velocity: [leftwards|zero|rightwards]
+pole-angle: [far-left|left|upright|right|far-right]
 The control of the cart is described as follows:
 push-cart: [left|right]
-Verily, I shall iterate through the states and controls sequentially to demonstrate the art of stabilizing the pole angle. Let us commence forthwith:
+Whenever the angle of the pole is towards the right, I shall push the cart towards the right to make the pole arise upright, and vice versa.
+Verily, I shall iterate through the states and controls sequentially to demonstrate the art of stabilizing the pole angle upright. Let us commence forthwith:
 cart-position: center
 cart-velocity: stopped
-pole-angle: right
 pole-angular-velocity: zero
+pole-angle: right
 push-cart: right
 cart-position: center
 cart-velocity: stopped
-pole-angle: right
 pole-angular-velocity: leftwards
+pole-angle: right
 push-cart: right
 cart-position: center
 cart-velocity: rightwards
-pole-angle: right
 pole-angular-velocity: leftwards
+pole-angle: right
 push-cart: right
 cart-position: center
 cart-velocity: rightwards
-pole-angle: right
 pole-angular-velocity: leftwards
+pole-angle: right
 push-cart: left
 cart-position: center
 cart-velocity: rightwards
-pole-angle: upright
 pole-angular-velocity: leftwards
+pole-angle: upright
 push-cart: left
 cart-position: center
 cart-velocity: stopped
-pole-angle: upright
 pole-angular-velocity: leftwards
+pole-angle: upright
 push-cart: right
 cart-position: center
 cart-velocity: rightwards
-pole-angle: upright
 pole-angular-velocity: leftwards
+pole-angle: upright
 Now, let us engage in a more extensive example, wherein I shall illustrate how to maneuver the pole to the erect position with an upright angle:
 """
 
@@ -82,8 +82,8 @@ def text_to_action(control_text):
 def observation_to_text(observation):
   # cart-position: [left-limit|left|center|right|right-limit]
   # cart-velocity: [leftwards|stopped|rightwards]
-  # pole-angle: [far-left|left|upright|right|far-right]
   # pole-angular-velocity: [leftwards|zero|rightwards]
+  # pole-angle: [far-left|left|upright|right|far-right]
   cart_position, cart_velocity, pole_angle, pole_angular_velocity = observation
   print("Observation: ", cart_position, cart_velocity, pole_angle, pole_angular_velocity)
   if cart_position < -2.3:
@@ -123,8 +123,8 @@ def observation_to_text(observation):
     pole_angular_velocity_text = 'zero'
   return f"""cart-position: {cart_position_text}
 cart-velocity: {cart_velocity_text}
-pole-angle: {pole_angle_text}
 pole-angular-velocity: {pole_angular_velocity_text}
+pole-angle: {pole_angle_text}
 """
 
 observation, info = env.reset(seed=42)
@@ -167,6 +167,8 @@ for step in range(FRAMES):
         print(e)
         time.sleep(10)
       trials = trials + 1
+      # Open AI rate limit of one request per second, 60 / minute.
+      time.sleep(2)
     print("chatbot: ", control_text)
     if action is None:
       print("Chatbot refused to take action, let's go with default.")
@@ -181,8 +183,6 @@ for step in range(FRAMES):
     observation, info = env.reset()
     prompts.append(prompt)
     prompt = initial_prompt;
-  # Open AI rate limit of one request per second, 60 / minute.
-  time.sleep(2)
   with open(f"outputs/{run_name}/sequence.json", "w") as sequence:
     sequence.write(json.dumps(list(zip(states, actions))))
   with open(f"outputs/{run_name}/prompts.json", "w") as promptsfile:
