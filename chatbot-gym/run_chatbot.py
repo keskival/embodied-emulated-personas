@@ -163,7 +163,7 @@ for step in range(FRAMES):
         )
         control_text = completion['choices'][0]['text']
         action = text_to_action(control_text)
-      except e:
+      except Exception as e:
         print(e)
       trials = trials + 1
     print("chatbot: ", control_text)
