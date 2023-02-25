@@ -10,7 +10,7 @@ with open('apikey.json', 'r') as apikey_file:
   openai.organization = config['org']
   model = config['model']
 
-prompt = """I am Isaac Newton, the person who invented the laws of mechanics.
+prompt = """I am Sir Isaac Newton, the person who invented the laws of mechanics.
 Let me demonstrate how to balance a text-controlled cartpole.
 The cartpole consists of a freely moving cart which can move left and right, and a pole balanced on top of it.
 The aim is to keep the pole upright while keeping the cart from hitting the limits of the track.
