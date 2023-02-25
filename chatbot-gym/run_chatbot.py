@@ -3,6 +3,9 @@
 import gymnasium as gym
 import openai
 import json
+import os
+from datetime import datetime
+from PIL import Image
 
 with open('apikey.json', 'r') as apikey_file:
   config = json.load(apikey_file)
@@ -25,10 +28,15 @@ pole-angular-velocity: [left|zero|right]
 The control of the cart is described as follows:
 control: [left|right]
 Verily, I shall iterate through the states and controls sequentially to demonstrate the art of stabilizing the cart. Let us commence forthwith:
-cart-position: left
+cart-position: center
 cart-velocity: stopped
 pole-angle: right
 pole-angular-velocity: zero
+control: right
+cart-position: center
+cart-velocity: stopped
+pole-angle: right
+pole-angular-velocity: left
 control: right
 cart-position: center
 cart-velocity: right
@@ -37,18 +45,43 @@ pole-angular-velocity: left
 control: right
 cart-position: center
 cart-velocity: right
+pole-angle: right
+pole-angular-velocity: left
+control: left
+cart-position: center
+cart-velocity: right
 pole-angle: upright
 pole-angular-velocity: left
 control: left
-cart-position: right
+cart-position: center
 cart-velocity: stopped
 pole-angle: upright
-pole-angular-velocity: zero
+pole-angular-velocity: left
+control: right
+cart-position: center
+cart-velocity: right
+pole-angle: upright
+pole-angular-velocity: left
 control: left
+cart-position: center
+cart-velocity: stopped
+pole-angle: left
+pole-angular-velocity: left
+control: right
+cart-position: center
+cart-velocity: right
+pole-angle: left
+pole-angular-velocity: left
+control: left
+cart-position: center
+cart-velocity: stopped
+pole-angle: left
+pole-angular-velocity: left
+control: right
 Now, let us engage in a more extensive example, wherein I shall illustrate how to maneuver the rod to the erect position:
 """
 
-env = gym.make('CartPole-v1')
+env = gym.make('CartPole-v1', render_mode='rgb_array')
 
 def text_to_action(control_text):
   if control_text == 'control: left':
@@ -107,8 +140,18 @@ pole-angular-velocity: {pole_angular_velocity_text}
 """
 
 observation, info = env.reset(seed=42)
+states = []
+actions = []
 
-for steps in range(10):
+run_name = datetime.now()
+os.makedirs(f"outputs/{run_name}", exist_ok=True)
+
+for step in range(100):
+  image = env.render()
+  frame = Image.fromarray(image)
+  frame.save(f"outputs/{run_name}/{step}.png")
+
+  states.append(observation.tolist())
 
   trials = 0
   action = None
@@ -130,6 +173,7 @@ for steps in range(10):
     print("Chatbot refused to take action, let's go with default.")
     action = 1
     control_text = 'control: left'
+  actions.append(action)
   prompt = prompt + control_text + "\n"
 
   observation, reward, terminated, truncated, info = env.step(action)
@@ -140,3 +184,6 @@ for steps in range(10):
 print("The episode unfolded as follows:")
 print(prompt)
 env.close()
+
+with open(f"outputs/{run_name}/sequence.json", "w") as run:
+  run.write(json.dumps(list(zip(states, actions))))
