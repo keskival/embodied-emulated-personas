@@ -54,6 +54,7 @@ cart-velocity: stopped
 pole-angle: upright
 pole-angular-velocity: zero
 control: left
+<<THE REAL GAME STARTS HERE>>
 cart-position: center
 cart-velocity: stopped
 pole-angle: right
