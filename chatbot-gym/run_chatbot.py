@@ -183,6 +183,8 @@ for step in range(FRAMES):
     prompt = initial_prompt;
   # Open AI rate limit of one request per second, 60 / minute.
   time.sleep(2)
+  with open(f"outputs/{run_name}/sequence.json", "w") as sequence:
+    sequence.write(json.dumps(list(zip(states, actions))))
   with open(f"outputs/{run_name}/prompts.json", "w") as promptsfile:
     promptsfile.write(json.dumps(prompts))
 prompts.append(prompt)
