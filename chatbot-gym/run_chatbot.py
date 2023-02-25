@@ -165,6 +165,7 @@ for step in range(FRAMES):
         action = text_to_action(control_text)
       except Exception as e:
         print(e)
+        time.sleep(10)
       trials = trials + 1
     print("chatbot: ", control_text)
     if action is None:
