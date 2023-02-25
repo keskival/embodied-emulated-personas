@@ -137,6 +137,7 @@ for steps in range(10):
   if terminated or truncated:
     print("Episode ended.")
     observation, info = env.reset()
+    prompt = prompt + "\nOk, I'll show you one more long example:\n";
 print("The episode unfolded as follows:")
 print(prompt)
 env.close()
