@@ -55,6 +55,15 @@ Benefits:
 
 Issues:
 - A bit challenging to project the observation space into text, but I suppose that's the whole point.
+- Not certain it can be zero-shot solved by an LLM chatbot at all, as it requires a lot of mechanical intuition.
+
+### A Game of Personality
+
+A completely new game just for this purpose:
+- Simple.
+- Adds a proper extra sense or finer motor control which relates to the task.
+- Can be explained and solved by an LLM chatbot.
+- Somehow projects the personality of the persona in a quantifiable fashion.
 
 ## How To Take Part
 
