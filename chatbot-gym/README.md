@@ -16,93 +16,109 @@ to a file named `apikey.json` containing following:
 
 ## Output
 
-With `davinci-003` it manages to get the pole to the upright position at least temporarily. Note that the first four controls are manually written prompt examples and don't correspond to the real Gym game:
+[The animated gif](./newton-zeroshot-cartpole.gif).
+
+Example result for one episode:
 ```
-I am Sir Isaac Newton, the person who invented the laws of mechanics.
-Let me demonstrate how to balance a text-controlled cartpole.
-The cartpole consists of a freely moving cart which can move left and right, and a pole balanced on top of it.
-The aim is to keep the pole upright while keeping the cart from hitting the limits of the track.
-In other words, a pole is attached by an un-actuated joint to a cart, which moves along a frictionless track.
-The pendulum is placed upright on the cart and the goal is to balance the pole by applying forces in the left
-and right direction on the cart.
-The pole angle is the most important variable to control, then the pole angular velocity.
-The state of the cart is described like follows:
+Pray, permit me to introduce myself, Sir Isaac Newton, the discoverer of the laws of mechanics.
+Allow me to present an exhibition on the art of equilibrating a text-managed cartpole.
+The aforementioned pole is comprised of a carriage that oscillates freely to and fro, and an elongated pole perched atop it that requires balancing.
+The objective is to keep the pole vertically oriented, while simultaneously prohibiting the carriage from colliding with the boundaries of the track.
+In other words, a joint without power impels the pole to cling to a carriage, which travels along an unresisting pathway.
+The pendulum is situated uprightly on the carriage, and the aim is to maintain balance by exerting forces in the leftward and rightward directions upon the carriage.
+The angle of the pole is the primary quantity to control, followed by the angular velocity of the pole.
+The condition of the carriage is delineated in the subsequent manner:
 cart-position: [left-limit|left|center|right|right-limit]
-cart-velocity: [left|stopped|right]
+cart-velocity: [leftwards|stopped|rightwards]
+pole-angular-velocity: [leftwards|zero|rightwards]
 pole-angle: [far-left|left|upright|right|far-right]
-pole-angular-velocity: [left|zero|right]
 The control of the cart is described as follows:
-control: [left|right]
-I will iterate states and controls in sequence to show how to balance the cart. Let's start:
-cart-position: left
+push-cart: [left|right]
+Whenever the angle of the pole is towards the right, I shall push the cart towards the right to make the pole arise upright, and vice versa.
+Verily, I shall iterate through the states and controls sequentially to demonstrate the art of stabilizing the pole angle upright. Let us commence forthwith:
+cart-position: center
 cart-velocity: stopped
-pole-angle: right
 pole-angular-velocity: zero
-control: right
-cart-position: center
-cart-velocity: right
 pole-angle: right
-pole-angular-velocity: left
-control: right
+push-cart: right
 cart-position: center
-cart-velocity: right
+cart-velocity: stopped
+pole-angular-velocity: leftwards
+pole-angle: right
+push-cart: right
+cart-position: center
+cart-velocity: rightwards
+pole-angular-velocity: leftwards
+pole-angle: right
+push-cart: right
+cart-position: center
+cart-velocity: rightwards
+pole-angular-velocity: leftwards
+pole-angle: right
+push-cart: left
+cart-position: center
+cart-velocity: rightwards
+pole-angular-velocity: leftwards
 pole-angle: upright
-pole-angular-velocity: left
-control: left
+push-cart: left
+cart-position: center
+cart-velocity: stopped
+pole-angular-velocity: leftwards
+pole-angle: upright
+push-cart: right
+cart-position: center
+cart-velocity: rightwards
+pole-angular-velocity: leftwards
+pole-angle: upright
+Now, let us engage in a more extensive example, wherein I shall illustrate how to maneuver the pole to the erect position with an upright angle:
+cart-position: center
+cart-velocity: stopped
+pole-angular-velocity: zero
+pole-angle: upright
+push-cart: right
+cart-position: center
+cart-velocity: rightwards
+pole-angular-velocity: leftwards
+pole-angle: upright
+push-cart: left
+cart-position: center
+cart-velocity: stopped
+pole-angular-velocity: zero
+pole-angle: left
+push-cart: right
+cart-position: center
+cart-velocity: rightwards
+pole-angular-velocity: leftwards
+pole-angle: left
+push-cart: left
+cart-position: center
+cart-velocity: stopped
+pole-angular-velocity: zero
+pole-angle: left
+push-cart: right
+cart-position: center
+cart-velocity: rightwards
+pole-angular-velocity: leftwards
+pole-angle: left
+push-cart: right
+cart-position: center
+cart-velocity: rightwards
+pole-angular-velocity: leftwards
+pole-angle: left
+push-cart: left
+cart-position: right
+cart-velocity: rightwards
+pole-angular-velocity: leftwards
+pole-angle: left
+push-cart: left
 cart-position: right
 cart-velocity: stopped
-pole-angle: upright
-pole-angular-velocity: zero
-control: left
-Now, let's do a much longer example, and I will show how to get the pole to the upright position:
-cart-position: center
-cart-velocity: stopped
-pole-angle: right
-pole-angular-velocity: zero
-control: right
-cart-position: center
-cart-velocity: stopped
-pole-angle: right
-pole-angular-velocity: left
-control: right
-cart-position: center
-cart-velocity: right
-pole-angle: right
-pole-angular-velocity: left
-control: right
-cart-position: center
-cart-velocity: right
-pole-angle: right
-pole-angular-velocity: left
-control: left
-cart-position: center
-cart-velocity: right
-pole-angle: upright
-pole-angular-velocity: left
-control: left
-cart-position: center
-cart-velocity: stopped
-pole-angle: upright
-pole-angular-velocity: left
-control: right
-cart-position: center
-cart-velocity: right
-pole-angle: upright
-pole-angular-velocity: left
-control: left
-cart-position: center
-cart-velocity: stopped
-pole-angle: left
-pole-angular-velocity: left
-control: right
-cart-position: center
-cart-velocity: right
-pole-angle: left
-pole-angular-velocity: left
-control: left
-cart-position: center
-cart-velocity: stopped
-pole-angle: left
-pole-angular-velocity: left
-control: right
+pole-angular-velocity: leftwards
+pole-angle: far-left
+push-cart: right
+cart-position: right
+cart-velocity: rightwards
+pole-angular-velocity: leftwards
+pole-angle: far-left
+push-cart: right
 ```
