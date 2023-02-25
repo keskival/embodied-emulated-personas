@@ -154,14 +154,17 @@ for step in range(FRAMES):
     prompt = prompt + text_observation
     action = None
     while (action is None and trials < 5):
-      completion = openai.Completion.create(
-        model=model,
-        prompt=prompt,
-        max_tokens=5,
-        temperature=0.01
-      )
-      control_text = completion['choices'][0]['text']
-      action = text_to_action(control_text)
+      try:
+        completion = openai.Completion.create(
+          model=model,
+          prompt=prompt,
+          max_tokens=5,
+          temperature=0.01
+        )
+        control_text = completion['choices'][0]['text']
+        action = text_to_action(control_text)
+      except e:
+        print(e)
       trials = trials + 1
     print("chatbot: ", control_text)
     if action is None:
