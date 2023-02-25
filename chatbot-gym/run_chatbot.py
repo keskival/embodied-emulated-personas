@@ -63,20 +63,21 @@ def observation_to_text(observation):
   # pole-angle: [far-left|left|upright|right|far-right]
   # pole-angular-velocity: [left|zero|right]
   cart_position, cart_velocity, pole_angle, pole_angular_velocity = observation
+  print("Observation: ", cart_position, cart_velocity, pole_angle, pole_angular_velocity)
   if cart_position < -2.3:
     cart_position_text = 'left-limit'
   elif cart_position > 2.3:
     cart_position_text = 'right-limit'
-  elif cart_position < -1.0:
+  elif cart_position < -0.1:
     cart_position_text = 'left'
-  elif cart_position > 1.0:
+  elif cart_position > 0.1:
     cart_position_text = 'right'
   else:
     cart_position_text = 'center'
 
-  if cart_velocity < -1:
+  if cart_velocity < -0.3:
     cart_velocity_text = 'left'
-  elif cart_velocity > 1:
+  elif cart_velocity > 0.3:
     cart_velocity_text = 'right'
   else:
     cart_velocity_text = 'stopped'
@@ -85,16 +86,16 @@ def observation_to_text(observation):
     pole_angle_text = 'far-left'
   elif pole_angle > 10:
     pole_angle_text = 'far-right'
-  elif pole_angle < -3:
+  elif pole_angle < -0.02:
     pole_angle_text = 'left'
-  elif pole_angle > 3:
+  elif pole_angle > 0.02:
     pole_angle_text = 'right'
   else:
     pole_angle_text = 'upright'
 
-  if pole_angular_velocity < -0.4:
+  if pole_angular_velocity < -0.2:
     pole_angular_velocity_text = 'left'
-  elif pole_angular_velocity > 0.4:
+  elif pole_angular_velocity > 0.2:
     pole_angular_velocity_text = 'right'
   else:
     pole_angular_velocity_text = 'zero'
