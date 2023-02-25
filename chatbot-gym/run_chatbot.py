@@ -6,6 +6,7 @@ import json
 import os
 from datetime import datetime
 from PIL import Image
+import time
 
 with open('apikey.json', 'r') as apikey_file:
   config = json.load(apikey_file)
@@ -22,80 +23,80 @@ The pendulum is situated uprightly on the carriage, and the aim is to maintain b
 The angle of the rod is the primary quantity to control, followed by the angular velocity of the rod.
 The condition of the carriage is delineated in the subsequent manner:
 cart-position: [left-limit|left|center|right|right-limit]
-cart-velocity: [left|stopped|right]
+cart-velocity: [leftwards|stopped|rightwards]
 pole-angle: [far-left|left|upright|right|far-right]
-pole-angular-velocity: [left|zero|right]
+pole-angular-velocity: [leftwards|zero|rightwards]
 The control of the cart is described as follows:
-control: [left|right]
+push-cart: [left|right]
 Verily, I shall iterate through the states and controls sequentially to demonstrate the art of stabilizing the cart. Let us commence forthwith:
 cart-position: center
 cart-velocity: stopped
 pole-angle: right
 pole-angular-velocity: zero
-control: right
+push-cart: right
 cart-position: center
 cart-velocity: stopped
 pole-angle: right
-pole-angular-velocity: left
-control: right
+pole-angular-velocity: leftwards
+push-cart: right
 cart-position: center
-cart-velocity: right
+cart-velocity: rightwards
 pole-angle: right
-pole-angular-velocity: left
-control: right
+pole-angular-velocity: leftwards
+push-cart: right
 cart-position: center
-cart-velocity: right
+cart-velocity: rightwards
 pole-angle: right
-pole-angular-velocity: left
-control: left
+pole-angular-velocity: leftwards
+push-cart: left
 cart-position: center
-cart-velocity: right
+cart-velocity: rightwards
 pole-angle: upright
-pole-angular-velocity: left
-control: left
+pole-angular-velocity: leftwards
+push-cart: left
 cart-position: center
 cart-velocity: stopped
 pole-angle: upright
-pole-angular-velocity: left
-control: right
+pole-angular-velocity: leftwards
+push-cart: right
 cart-position: center
-cart-velocity: right
+cart-velocity: rightwards
 pole-angle: upright
-pole-angular-velocity: left
-control: left
+pole-angular-velocity: leftwards
+push-cart: left
 cart-position: center
 cart-velocity: stopped
 pole-angle: left
-pole-angular-velocity: left
-control: right
+pole-angular-velocity: leftwards
+push-cart: right
 cart-position: center
-cart-velocity: right
+cart-velocity: rightwards
 pole-angle: left
-pole-angular-velocity: left
-control: left
+pole-angular-velocity: leftwards
+push-cart: left
 cart-position: center
 cart-velocity: stopped
 pole-angle: left
-pole-angular-velocity: left
-control: right
+pole-angular-velocity: leftwards
+push-cart: right
 Now, let us engage in a more extensive example, wherein I shall illustrate how to maneuver the rod to the erect position:
 """
 
 env = gym.make('CartPole-v1', render_mode='rgb_array')
 
 def text_to_action(control_text):
-  if control_text == 'control: left':
+  if control_text == 'push-cart: left':
     return 0
-  elif control_text == 'control: right':
+  elif control_text == 'push-cart: right':
     return 1
   else:
     return None
 
 def observation_to_text(observation):
   # cart-position: [left-limit|left|center|right|right-limit]
-  # cart-velocity: [left|stopped|right]
+  # cart-velocity: [leftwards|stopped|rightwards]
   # pole-angle: [far-left|left|upright|right|far-right]
-  # pole-angular-velocity: [left|zero|right]
+  # pole-angular-velocity: [leftwards|zero|rightwards]
   cart_position, cart_velocity, pole_angle, pole_angular_velocity = observation
   print("Observation: ", cart_position, cart_velocity, pole_angle, pole_angular_velocity)
   if cart_position < -2.3:
@@ -110,9 +111,9 @@ def observation_to_text(observation):
     cart_position_text = 'center'
 
   if cart_velocity < -0.2:
-    cart_velocity_text = 'left'
+    cart_velocity_text = 'leftwards'
   elif cart_velocity > 0.2:
-    cart_velocity_text = 'right'
+    cart_velocity_text = 'rightwards'
   else:
     cart_velocity_text = 'stopped'
 
@@ -128,9 +129,9 @@ def observation_to_text(observation):
     pole_angle_text = 'upright'
 
   if pole_angular_velocity < -0.2:
-    pole_angular_velocity_text = 'left'
+    pole_angular_velocity_text = 'leftwards'
   elif pole_angular_velocity > 0.2:
-    pole_angular_velocity_text = 'right'
+    pole_angular_velocity_text = 'rightwards'
   else:
     pole_angular_velocity_text = 'zero'
   return f"""cart-position: {cart_position_text}
@@ -146,7 +147,12 @@ actions = []
 run_name = datetime.now()
 os.makedirs(f"outputs/{run_name}", exist_ok=True)
 
-for step in range(100):
+FRAMES = 1000
+
+# We'll run x steps with the same action because the environment is so slow.
+STEPS_PER_ACTION = 2
+
+for step in range(FRAMES):
   image = env.render()
   frame = Image.fromarray(image)
   frame.save(f"outputs/{run_name}/{step}.png")
@@ -154,36 +160,42 @@ for step in range(100):
   states.append(observation.tolist())
 
   trials = 0
-  action = None
-  text_observation = observation_to_text(observation)
-  print("gym: ", text_observation)
-  prompt = prompt + text_observation
-  while (action is None and trials < 5):
-    completion = openai.Completion.create(
-      model=model,
-      prompt=prompt,
-      max_tokens=3,
-      temperature=0.01
-    )
-    control_text = completion['choices'][0]['text']
-    action = text_to_action(control_text)
-    trials = trials + 1
-  print("chatbot: ", control_text)
-  if action is None:
-    print("Chatbot refused to take action, let's go with default.")
-    action = 1
-    control_text = 'control: left'
+  if step % STEPS_PER_ACTION == 0:
+    text_observation = observation_to_text(observation)
+    print("gym: ", text_observation)
+    prompt = prompt + text_observation
+    action = None
+    while (action is None and trials < 5):
+      completion = openai.Completion.create(
+        model=model,
+        prompt=prompt,
+        max_tokens=5,
+        temperature=0.05
+      )
+      control_text = completion['choices'][0]['text']
+      action = text_to_action(control_text)
+      trials = trials + 1
+    print("chatbot: ", control_text)
+    if action is None:
+      print("Chatbot refused to take action, let's go with default.")
+      action = 1
+      control_text = 'push-cart: right'
+    prompt = prompt + control_text + "\n"
   actions.append(action)
-  prompt = prompt + control_text + "\n"
 
   observation, reward, terminated, truncated, info = env.step(action)
   if terminated or truncated:
     print("Episode ended.")
     observation, info = env.reset()
-    prompt = prompt + "\nVery well, allow me to present one further extensive example:\n";
+    prompt = prompt + "\nI failed. Very well, allow me to present one further extensive example:\n";
+  # Open AI rate limit of one request per second, 60 / minute.
+  time.sleep(1)
 print("The episode unfolded as follows:")
 print(prompt)
 env.close()
 
-with open(f"outputs/{run_name}/sequence.json", "w") as run:
-  run.write(json.dumps(list(zip(states, actions))))
+with open(f"outputs/{run_name}/sequence.json", "w") as sequence:
+  sequence.write(json.dumps(list(zip(states, actions))))
+
+with open(f"outputs/{run_name}/prompt.txt", "w") as prompt:
+  prompt.write(prompt)
