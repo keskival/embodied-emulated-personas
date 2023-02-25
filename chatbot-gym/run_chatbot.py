@@ -17,6 +17,7 @@ The aim is to keep the pole upright while keeping the cart from hitting the limi
 In other words, a pole is attached by an un-actuated joint to a cart, which moves along a frictionless track.
 The pendulum is placed upright on the cart and the goal is to balance the pole by applying forces in the left
 and right direction on the cart.
+The pole angle is the most important variable to control, then the pole angular velocity.
 The state of the cart is described like follows:
 cart-position: [left-limit|left|center|right|right-limit]
 cart-velocity: [left|stopped|right]
@@ -75,16 +76,16 @@ def observation_to_text(observation):
   else:
     cart_position_text = 'center'
 
-  if cart_velocity < -0.3:
+  if cart_velocity < -0.2:
     cart_velocity_text = 'left'
-  elif cart_velocity > 0.3:
+  elif cart_velocity > 0.2:
     cart_velocity_text = 'right'
   else:
     cart_velocity_text = 'stopped'
 
-  if pole_angle < -10:
+  if pole_angle < -0.15:
     pole_angle_text = 'far-left'
-  elif pole_angle > 10:
+  elif pole_angle > 0.15:
     pole_angle_text = 'far-right'
   elif pole_angle < -0.02:
     pole_angle_text = 'left'
@@ -119,7 +120,7 @@ for steps in range(10):
       model=model,
       prompt=prompt,
       max_tokens=3,
-      temperature=0
+      temperature=0.01
     )
     control_text = completion['choices'][0]['text']
     action = text_to_action(control_text)
