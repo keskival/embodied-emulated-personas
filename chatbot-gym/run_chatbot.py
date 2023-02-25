@@ -21,6 +21,7 @@ The objective is to keep the pole vertically oriented, while simultaneously proh
 In other words, a joint without power impels the pole to cling to a carriage, which travels along an unresisting pathway.
 The pendulum is situated uprightly on the carriage, and the aim is to maintain balance by exerting forces in the leftward and rightward directions upon the carriage.
 The angle of the pole is the primary quantity to control, followed by the angular velocity of the pole.
+Whenever the angle of the pole is towards the right, I shall push the cart towards the right to make the pole arise upwards, and vice versa.
 The condition of the carriage is delineated in the subsequent manner:
 cart-position: [left-limit|left|center|right|right-limit]
 cart-velocity: [leftwards|stopped|rightwards]
@@ -157,7 +158,7 @@ for step in range(FRAMES):
         model=model,
         prompt=prompt,
         max_tokens=5,
-        temperature=0.05
+        temperature=0.01
       )
       control_text = completion['choices'][0]['text']
       action = text_to_action(control_text)
@@ -177,7 +178,7 @@ for step in range(FRAMES):
     prompts.append(prompt)
     prompt = initial_prompt;
   # Open AI rate limit of one request per second, 60 / minute.
-  time.sleep(1)
+  time.sleep(2)
   with open(f"outputs/{run_name}/prompts.json", "w") as promptsfile:
     promptsfile.write(json.dumps(prompts))
 prompts.append(prompt)
