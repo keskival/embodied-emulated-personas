@@ -11,7 +11,7 @@ LLM chatbots exhibit pseudo-embodiment in their prompt induced emulated personas
 
 It is possible to hook these chatbots to virtual or physical bodies, similarly as they use other tools. They can be given a textual description of what their sensors perceive, and they can be asked to output their actions in forms which can be projected into motor control or other proper actions.
 
-All the above is the current state of the art, as shown for example here: https://www.microsoft.com/en-us/research/group/autonomous-systems-group-robotics/articles/chatgpt-for-robotics/
+All the above is the current state of the art, as shown for example here: https://www.microsoft.com/en-us/research/group/autonomous-systems-group-robotics/articles/chatgpt-for-robotics/, and here: https://youtu.be/38lA3U2J43w
 
 Getting from that point to true embodiment can be done for example as follows:
 - Design a neural agent which is embodied.
