@@ -81,9 +81,9 @@ prompt = initial_prompt
 env = gym.make('CartPole-v1', render_mode='rgb_array')
 
 def text_to_action(control_text):
-  if control_text == 'left':
+  if control_text == " left":
     return 0
-  elif control_text == 'right':
+  elif control_text == " right":
     return 1
   else:
     return None
@@ -134,7 +134,7 @@ def observation_to_text(observation):
 cart-velocity: {cart_velocity_text}
 pole-angular-velocity: {pole_angular_velocity_text}
 pole-angle: {pole_angle_text}
-push-cart: """
+push-cart:"""
 
 observation, info = env.reset(seed=42)
 states = []
@@ -175,9 +175,10 @@ for step in range(FRAMES):
         completion = openai.Completion.create(
           model=model,
           prompt=prompt,
-          max_tokens=5,
+          max_tokens=1,
           temperature=0.01
         )
+        print(completion)
         control_text = completion['choices'][0]['text']
         action = text_to_action(control_text)
       except Exception as e:
@@ -190,7 +191,7 @@ for step in range(FRAMES):
     if action is None:
       print("Chatbot refused to take action, let's go with default.")
       action = 1
-      control_text = 'right'
+      control_text = " right"
     prompt = prompt + control_text + "\n"
   actions.append(action)
 
