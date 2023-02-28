@@ -35,6 +35,7 @@ states.append({
 })
 
 for step in range(FRAMES):
+  print(f"Step: {step}/{FRAMES}")
   image = env.render()
   if (step < 1000):
     frame = Image.fromarray(image)
