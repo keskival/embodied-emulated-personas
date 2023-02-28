@@ -202,6 +202,7 @@ for step in range(FRAMES):
     "reward": reward,
     "terminated": terminated
   })
+  score = score + reward
 
   if terminated or truncated:
     scores.append(score)
