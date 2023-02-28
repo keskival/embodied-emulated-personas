@@ -131,6 +131,8 @@ observation, info = env.reset(seed=42)
 states = []
 actions = []
 prompts = []
+scores = []
+score = 0
 
 run_name = datetime.now()
 os.makedirs(f"outputs/{run_name}", exist_ok=True)
@@ -139,6 +141,12 @@ FRAMES = 1000
 
 # We'll run x steps with the same action because the environment is so slow.
 STEPS_PER_ACTION = 2
+
+states.append({
+  "obs": observation.tolist(),
+  "reward": 0,
+  "terminated": False
+})
 
 for step in range(FRAMES):
   image = env.render()
@@ -178,22 +186,33 @@ for step in range(FRAMES):
   actions.append(action)
 
   observation, reward, terminated, truncated, info = env.step(action)
+
+  states.append({
+    "obs": observation.tolist(),
+    "reward": reward,
+    "terminated": terminated
+  })
+
   if terminated or truncated:
+    scores.append(score)
+    score = 0
     print("Episode ended.")
     observation, info = env.reset()
     prompts.append(prompt)
     prompt = initial_prompt;
+    states.append({
+      "obs": observation.tolist(),
+      "reward": 0,
+      "terminated": False
+    })
   with open(f"outputs/{run_name}/sequence.json", "w") as sequence:
     sequence.write(json.dumps(list(zip(states, actions))))
+  with open(f"outputs/{run_name}/scores.json", "w") as sequence:
+    sequence.write(json.dumps(scores))
   with open(f"outputs/{run_name}/prompts.json", "w") as promptsfile:
     promptsfile.write(json.dumps(prompts))
 prompts.append(prompt)
 print("The episodes unfolded as follows:")
 print(prompts)
+print("Got scores: ", scores)
 env.close()
-
-with open(f"outputs/{run_name}/sequence.json", "w") as sequence:
-  sequence.write(json.dumps(list(zip(states, actions))))
-
-with open(f"outputs/{run_name}/prompts.json", "w") as promptsfile:
-  promptsfile.write(json.dumps(prompts))
