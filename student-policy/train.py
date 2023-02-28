@@ -10,10 +10,10 @@ actions = np.load("../chatbot-gym/actions.npy")
 
 policy = Policy(4, 2)
 
-optimizer = torch.optim.Adam(policy.parameters(), lr=1e-3)
+optimizer = torch.optim.Adam(policy.parameters(), lr=1e-2)
 
 # It's a tiny network and a tiny problem so we don't need to do anything fancy.
-STEPS = 100000
+STEPS = 500000
 for step in range(STEPS):
   model_actions = policy(torch.as_tensor(observations, dtype=torch.float32))
   teacher_actions = torch.as_tensor(actions, dtype=torch.long)

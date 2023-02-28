@@ -65,9 +65,14 @@ for step in range(FRAMES):
       "reward": 0,
       "terminated": False
     })
-  with open(f"outputs/{run_name}/sequence.json", "w") as sequence:
-    sequence.write(json.dumps(list(zip(states, actions))))
-  with open(f"outputs/{run_name}/scores.json", "w") as sequence:
-    sequence.write(json.dumps(scores))
+  if step % 1000 == 0:
+    with open(f"outputs/{run_name}/sequence.json", "w") as sequence:
+      sequence.write(json.dumps(list(zip(states, actions))))
+    with open(f"outputs/{run_name}/scores.json", "w") as sequence:
+      sequence.write(json.dumps(scores))
+with open(f"outputs/{run_name}/sequence.json", "w") as sequence:
+  sequence.write(json.dumps(list(zip(states, actions))))
+with open(f"outputs/{run_name}/scores.json", "w") as sequence:
+  sequence.write(json.dumps(scores))
 print("Got scores: ", scores)
 env.close()
