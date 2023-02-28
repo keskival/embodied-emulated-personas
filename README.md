@@ -65,6 +65,14 @@ A completely new game just for this purpose:
 - Can be explained and solved by an LLM chatbot.
 - Somehow projects the personality of the persona in a quantifiable fashion.
 
+## Structure of the Project
+
+The [chatbot-gym](./chatbot-gym) directory has an implementation for a persona of Sir Isaac Newton which is put to the task to control the `CartPole-v1` Gymnasium game.
+For reference, the [random-walk-baseline](./chatbot-gym/random-walk-baseline) has the same game played by a random walk agent.
+The captured observation-action pairs are in the [observations.npy](./chatbot-gym/observations.npy) and [actions.npy](./chatbot-gym/actions.npy) respectively.
+
+The captured observations and actions are used to train the student model in [student-policy](./student-policy).
+
 ## How To Take Part
 
 Join the Discord server and introduce yourself. Then do what you want. PRs and Wiki contributions are welcome.
