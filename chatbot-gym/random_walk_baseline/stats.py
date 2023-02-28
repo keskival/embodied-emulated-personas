@@ -14,5 +14,6 @@ with open(f"outputs/{run_name}/scores.json", "r") as scores_file:
 
 scores_df = pd.DataFrame(scores)
 print("95th quantile: ", scores_df.quantile(0.95))
+print("mean: ", scores_df.mean())
 sns.displot(scores, bins=100)
 plt.show()
