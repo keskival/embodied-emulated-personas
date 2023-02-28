@@ -14,22 +14,30 @@ with open('apikey.json', 'r') as apikey_file:
   openai.organization = config['org']
   model = config['model']
 
-initial_prompt = """Pray, permit me to introduce myself, Sir Isaac Newton, the discoverer of the laws of mechanics.
-Allow me to present an exhibition on the art of equilibrating a text-managed cartpole.
-The aforementioned pole is comprised of a carriage that oscillates freely to and fro, and an elongated pole perched atop it that requires balancing.
-The objective is to keep the pole vertically oriented, while simultaneously prohibiting the carriage from colliding with the boundaries of the track.
-In other words, a joint without power impels the pole to cling to a carriage, which travels along an unresisting pathway.
-The pendulum is situated uprightly on the carriage, and the aim is to maintain balance by exerting forces in the leftward and rightward directions upon the carriage.
-The angle of the pole is the primary quantity to control, followed by the angular velocity of the pole.
-The condition of the carriage is delineated in the subsequent manner:
+initial_prompt = """Allow me to introduce myself: Sir Isaac Newton,
+the discoverer of the laws of mechanics.
+I humbly present an exhibition on the art of equilibrating a text-managed cartpole.
+This apparatus consists of a carriage that moves freely to and fro,
+with an elongated pole perched atop that necessitates balancing.
+The task at hand is to maintain the pole's vertical orientation by exerting forces
+to the left when it falls to the left and to the right when it falls to the right.
+In essence, the joint's powerlessness impels the pole to cling to a carriage that
+travels along an unresisting pathway. The pendulum is situated uprightly
+on the carriage, and balance is maintained by applying forces in the leftward
+and rightward directions upon the carriage. The angle of the pole is
+the primary quantity to control, followed by the angular velocity of the pole.
+The state of the carriage is described in the subsequent manner:
 cart-position: [left-limit|left|center|right|right-limit]
 cart-velocity: [leftwards|stopped|rightwards]
 pole-angular-velocity: [leftwards|zero|rightwards]
 pole-angle: [far-left|left|upright|right|far-right]
 The control of the cart is described as follows:
 push-cart: [left|right]
-Whenever the angle of the pole is towards the right, I shall push the cart towards the right to make the pole arise upright, and vice versa.
-Verily, I shall iterate through the states and controls sequentially to demonstrate the art of stabilizing the pole angle upright. Let us commence forthwith:
+Upon observing the pole's inclination towards the right,
+I shall apply a force towards the right on the cart to establish the pole's vertical position,
+and conversely for the leftward inclination. With due respect,
+I shall sequentially iterate through the states and controls to demonstrate
+the art of stabilizing the pole angle upright. Let us commence forthwith:
 cart-position: center
 cart-velocity: stopped
 pole-angular-velocity: zero
@@ -64,7 +72,8 @@ cart-position: center
 cart-velocity: rightwards
 pole-angular-velocity: leftwards
 pole-angle: upright
-Now, let us engage in a more extensive example, wherein I shall illustrate how to maneuver the pole to the erect position with an upright angle:
+Pray, allow me to present a more extensive example,
+wherein I shall illustrate the maneuvers required to position the pole to an upright and vertical angle:
 """
 
 prompt = initial_prompt
@@ -72,9 +81,9 @@ prompt = initial_prompt
 env = gym.make('CartPole-v1', render_mode='rgb_array')
 
 def text_to_action(control_text):
-  if control_text == 'push-cart: left':
+  if control_text == 'left':
     return 0
-  elif control_text == 'push-cart: right':
+  elif control_text == 'right':
     return 1
   else:
     return None
@@ -125,7 +134,7 @@ def observation_to_text(observation):
 cart-velocity: {cart_velocity_text}
 pole-angular-velocity: {pole_angular_velocity_text}
 pole-angle: {pole_angle_text}
-"""
+push-cart: """
 
 observation, info = env.reset(seed=42)
 states = []
@@ -181,7 +190,7 @@ for step in range(FRAMES):
     if action is None:
       print("Chatbot refused to take action, let's go with default.")
       action = 1
-      control_text = 'push-cart: right'
+      control_text = 'right'
     prompt = prompt + control_text + "\n"
   actions.append(action)
 
