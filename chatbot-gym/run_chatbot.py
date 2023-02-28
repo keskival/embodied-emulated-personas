@@ -162,8 +162,6 @@ for step in range(FRAMES):
   frame = Image.fromarray(image)
   frame.save(f"outputs/{run_name}/{step}.png")
 
-  states.append(observation.tolist())
-
   trials = 0
   if step % STEPS_PER_ACTION == 0:
     text_observation = observation_to_text(observation)
