@@ -141,7 +141,7 @@ states.append({
   "terminated": False
 })
 
-MAX_PROMPT_LENGTH = 50
+MAX_PROMPT_LENGTH = 30
 
 for step in range(FRAMES):
   image = env.render()
@@ -166,6 +166,7 @@ for step in range(FRAMES):
         control_text = completion['choices'][0]['message']['content']
         action = text_to_action(control_text)
       except Exception as e:
+        prompt = initial_prompt;
         print(e)
         time.sleep(10)
       trials = trials + 1
