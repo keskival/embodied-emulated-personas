@@ -10,7 +10,7 @@ to a file named `apikey.json` containing following:
 {
     "apikey": "yourapikeyfromopenai",
     "org": "yourorganizationid",
-    "model": "text-ada-001"
+    "model": "gpt-3.5-turbo"
 }
 ```
 

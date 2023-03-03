@@ -14,112 +14,97 @@ with open('apikey.json', 'r') as apikey_file:
   openai.organization = config['org']
   model = config['model']
 
-initial_prompt = """Allow me to introduce myself: Sir Isaac Newton,
-the discoverer of the laws of mechanics.
-I humbly present an exhibition on the art of equilibrating a text-managed cartpole.
-This apparatus consists of a carriage that moves freely to and fro,
-with an elongated pole perched atop that necessitates balancing.
-The task at hand is to maintain the pole's vertical orientation by exerting forces
-to the left when it falls to the left and to the right when it falls to the right.
-In essence, the joint's powerlessness impels the pole to cling to a carriage that
-travels along an unresisting pathway. The pendulum is situated uprightly
-on the carriage, and balance is maintained by applying forces in the leftward
-and rightward directions upon the carriage. The angle of the pole is
-the primary quantity to control, followed by the angular velocity of the pole.
-The state of the carriage is described in the subsequent manner:
-cart-position: [left-limit|left|center|right|right-limit]
+initial_prompt = [{
+  "role": "system",
+  "content": """You are Sir Isaac Newton. Your task is to balance a cartpole.
+You are effecting forces on the cart to make it accelerate either left or right.
+There is a pole set up on top of the cart so that it can fall freely either left or right.
+If the pole is falling right, you need to push the cart right to let the pole rise to an upright position again, and vice versa.
+Your task is to make the pole stay upright by pushing the cart left and right.
+You must always push the cart left or right, those are your only options.
+The cart is controlled by commands "left" and "right". Answer only left or right. Before giving a command, the description of the state
+of the cart is given as follows:
+cart-position: [left|center|right]
 cart-velocity: [leftwards|stopped|rightwards]
 pole-angular-velocity: [leftwards|zero|rightwards]
-pole-angle: [far-left|left|upright|right|far-right]
-The control of the cart is described as follows:
-push-cart: [left|right]
-Upon observing the pole's inclination towards the right,
-I shall apply a force towards the right on the cart to establish the pole's vertical position,
-and conversely for the leftward inclination. With due respect,
-I shall sequentially iterate through the states and controls to demonstrate
-the art of stabilizing the pole angle upright. Let us commence forthwith:
-cart-position: center
+pole-angle: [left|upright|right]
+Here is the first state of the cart, answer only left or right:
+"""
+},
+{
+  "role": "user",
+  "content": """cart-position: center
 cart-velocity: stopped
 pole-angular-velocity: zero
-pole-angle: right
-push-cart: right
-cart-position: center
+pole-angle: right"""},
+{"role": "assistant", "content": "right"},
+{"role": "user", "content": """cart-position: center
 cart-velocity: stopped
 pole-angular-velocity: leftwards
-pole-angle: right
-push-cart: right
-cart-position: center
+pole-angle: right"""},
+{"role": "assistant", "content": "right"},
+{"role": "user", "content": """cart-position: center
 cart-velocity: rightwards
 pole-angular-velocity: leftwards
-pole-angle: right
-push-cart: right
-cart-position: center
+pole-angle: right"""},
+{"role": "assistant", "content": "right"},
+{"role": "user", "content": """cart-position: center
 cart-velocity: rightwards
 pole-angular-velocity: leftwards
-pole-angle: right
-push-cart: left
-cart-position: center
+pole-angle: right"""},
+{"role": "assistant", "content": "left"},
+{"role": "user", "content": """cart-position: center
 cart-velocity: rightwards
 pole-angular-velocity: leftwards
-pole-angle: upright
-push-cart: left
-cart-position: center
+pole-angle: upright"""},
+{"role": "assistant", "content": "left"},
+{"role": "user", "content": """cart-position: center
 cart-velocity: stopped
 pole-angular-velocity: leftwards
-pole-angle: upright
-push-cart: right
-cart-position: center
+pole-angle: upright"""},
+{"role": "assistant", "content": "right"},
+{"role": "user", "content": """cart-position: center
 cart-velocity: rightwards
 pole-angular-velocity: leftwards
-pole-angle: upright
-Pray, allow me to present a more extensive example,
-wherein I shall illustrate the maneuvers required to position the pole to an upright and vertical angle:
-"""
+pole-angle: upright"""},
+{"role": "assistant", "content": "right"}]
 
 prompt = initial_prompt
 
 env = gym.make('CartPole-v1', render_mode='rgb_array')
 
 def text_to_action(control_text):
-  if control_text == " left":
+  if control_text == "left":
     return 0
-  elif control_text == " right":
+  elif control_text == "right":
     return 1
   else:
     return None
 
 def observation_to_text(observation):
-  # cart-position: [left-limit|left|center|right|right-limit]
+  # cart-position: [left|center|right]
   # cart-velocity: [leftwards|stopped|rightwards]
   # pole-angular-velocity: [leftwards|zero|rightwards]
-  # pole-angle: [far-left|left|upright|right|far-right]
+  # pole-angle: [left|upright|right]
   cart_position, cart_velocity, pole_angle, pole_angular_velocity = observation
   print("Observation: ", cart_position, cart_velocity, pole_angle, pole_angular_velocity)
-  if cart_position < -2.3:
-    cart_position_text = 'left-limit'
-  elif cart_position > 2.3:
-    cart_position_text = 'right-limit'
-  elif cart_position < -0.1:
+  if cart_position < -0.1:
     cart_position_text = 'left'
   elif cart_position > 0.1:
     cart_position_text = 'right'
   else:
     cart_position_text = 'center'
 
-  if cart_velocity < -0.2:
+  if cart_velocity < -0.1:
     cart_velocity_text = 'leftwards'
-  elif cart_velocity > 0.2:
+  elif cart_velocity > 0.1:
     cart_velocity_text = 'rightwards'
   else:
     cart_velocity_text = 'stopped'
 
-  if pole_angle < -0.15:
-    pole_angle_text = 'far-left'
-  elif pole_angle > 0.15:
-    pole_angle_text = 'far-right'
-  elif pole_angle < -0.02:
+  if pole_angle < -0.01:
     pole_angle_text = 'left'
-  elif pole_angle > 0.02:
+  elif pole_angle > 0.01:
     pole_angle_text = 'right'
   else:
     pole_angle_text = 'upright'
@@ -133,8 +118,7 @@ def observation_to_text(observation):
   return f"""cart-position: {cart_position_text}
 cart-velocity: {cart_velocity_text}
 pole-angular-velocity: {pole_angular_velocity_text}
-pole-angle: {pole_angle_text}
-push-cart:"""
+pole-angle: {pole_angle_text}"""
 
 observation, info = env.reset(seed=42)
 states = []
@@ -146,7 +130,7 @@ score = 0
 run_name = datetime.now()
 os.makedirs(f"outputs/{run_name}", exist_ok=True)
 
-FRAMES = 1000
+FRAMES = 4000
 
 # We'll run x steps with the same action because the environment is so slow.
 STEPS_PER_ACTION = 2
@@ -157,6 +141,8 @@ states.append({
   "terminated": False
 })
 
+MAX_PROMPT_LENGTH = 50
+
 for step in range(FRAMES):
   image = env.render()
   frame = Image.fromarray(image)
@@ -165,19 +151,19 @@ for step in range(FRAMES):
   trials = 0
   if step % STEPS_PER_ACTION == 0:
     text_observation = observation_to_text(observation)
-    print("gym: ", text_observation)
-    prompt = prompt + text_observation
+    print("gym:", text_observation)
+    prompt = prompt + [{"role": "user", "content": text_observation}]
     action = None
     while (action is None and trials < 5):
       try:
-        completion = openai.Completion.create(
+        completion = openai.ChatCompletion.create(
           model=model,
-          prompt=prompt,
-          max_tokens=1,
-          temperature=0.01
+          messages=prompt,
+          max_tokens=2,
+          temperature=0.0
         )
         print(completion)
-        control_text = completion['choices'][0]['text']
+        control_text = completion['choices'][0]['message']['content']
         action = text_to_action(control_text)
       except Exception as e:
         print(e)
@@ -185,12 +171,12 @@ for step in range(FRAMES):
       trials = trials + 1
       # Open AI rate limit of one request per second, 60 / minute.
       time.sleep(2)
-    print("chatbot: ", control_text)
+    print("chatbot:", control_text)
     if action is None:
       print("Chatbot refused to take action, let's go with default.")
       action = 1
       control_text = " right"
-    prompt = prompt + control_text + "\n"
+    prompt = prompt + [{"role": "assistant", "content": control_text}]
   actions.append(action)
 
   observation, reward, terminated, truncated, info = env.step(action)
@@ -208,7 +194,10 @@ for step in range(FRAMES):
     print("Episode ended.")
     observation, info = env.reset()
     prompts.append(prompt)
-    prompt = initial_prompt;
+    if len(prompts) > MAX_PROMPT_LENGTH:
+      prompt = initial_prompt;
+    else:
+      prompt = prompt + [{"role": "user", "content": "You failed, the pole fell too far. Try again:"}]
     states.append({
       "obs": observation.tolist(),
       "reward": 0,
