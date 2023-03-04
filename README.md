@@ -73,6 +73,22 @@ The captured observation-action pairs are in the [observations.npy](./chatbot-gy
 
 The captured observations and actions are used to train the student model in [student-policy](./student-policy).
 
+## Results
+
+We ran a ChatGPT agent prompted to emulate Sir Isaac Newton personality, although with the new ChatGPT API that is somewhat less dramatic than doing the same with DaVinci text completion API.
+In practice we just tell ChatGPT that it is Sir Isaac Newton, and describe the CartPole task it will have to perform.
+
+Then we imitation learn the policy from ChatGPT demonstration by an agent which has a proper embodiment, direct and full observation of the game state, and direct control over the action space. Note that the student network doesn't perceive game rewards and isn't trained to optimize for them. It is simply trained to imitate the ChatGPT which was prompted to imitate Sir Isaac Newton.
+
+Mean scores:
+- Newton chatbot: 24.378049
+- Random walk: 19.05851
+- XGBoost embodied student agent: 21.245431
+
+It wasn't possible to train a deep neural network as a student network because the small amount of data makes it very susceptible to overfitting. XGBoost worked much better.
+
+We note that the performance of the Sir Isaac Newton is replicate at some perceivable level in the embodied agent, which achieves higher than random scores even if it isn't trained to optimixe for score.
+
 ## How To Take Part
 
 Join the Discord server and introduce yourself. Then do what you want. PRs and Wiki contributions are welcome.
