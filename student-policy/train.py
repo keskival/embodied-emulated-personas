@@ -20,12 +20,19 @@ validation_actions = actions[SPLIT:SPLIT+VALIDATION_SIZE]
 
 writer = SummaryWriter()
 
+# Since this is such a small dataset and the policy to be learned is near random,
+# it is very challenging to find a neural network architecture and training regime
+# which doesn't overfit.
+# Instead, XGBoost works better.
+
 policy = Policy(4, 2)
 
-optimizer = torch.optim.Adam(policy.parameters(), lr=1e-2)
+optimizer = torch.optim.Adam(policy.parameters(), lr=1e-3, weight_decay=1e-4)
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=3000, gamma=0.5)
 
-NUMBER_OF_STEPS = 2
+# This can be used to pretty easily swap in a recurrent neural network like an LSTM.
+# However, that makes the model grossly overparametrized so let's not.
+NUMBER_OF_STEPS = 1
 
 # It's a tiny network and a tiny problem so we don't need to do anything fancy
 # except stop before it start overfitting.

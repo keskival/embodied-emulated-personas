@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 import pandas as pd
 
 sns.set_theme()
-run_name = "2023-03-04 12:38:12.304248"
+run_name = "2023-03-04 19:54:13.393381"
 
 with open(f"outputs/{run_name}/scores.json", "r") as scores_file:
   scores = json.load(scores_file)

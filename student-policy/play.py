@@ -28,6 +28,7 @@ policy.eval()
 
 # We'll run x steps with the same action because the environment is so slow.
 STEPS_PER_ACTION = 2
+STEPS_TO_LSTM = 4
 
 states.append({
   "obs": observation.tolist(),
@@ -41,7 +42,7 @@ for step in range(FRAMES):
   print(f"Step: {step}/{FRAMES}")
   # The model is an LSTM now, so we'll keep track of the last three observations.
   run_observations.append(observation)
-  run_observations = run_observations[-3:]
+  run_observations = run_observations[-STEPS_TO_LSTM:]
 
   image = env.render()
   if (step < 1000):

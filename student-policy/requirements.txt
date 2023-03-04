@@ -1,2 +1,4 @@
 torch==1.12.1
 numpy==1.12.5
+xgboost==1.7.4
+
