@@ -22,7 +22,7 @@ writer = SummaryWriter()
 
 policy = Policy(4, 2)
 
-optimizer = torch.optim.Adam(policy.parameters(), lr=1e-2)
+optimizer = torch.optim.Adam(policy.parameters(), lr=1e-5)
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=3000, gamma=0.5)
 
 NUMBER_OF_STEPS = 2
@@ -31,6 +31,7 @@ NUMBER_OF_STEPS = 2
 # except stop before it start overfitting.
 STEPS = 100000
 for step in range(STEPS):
+  policy.train()
   training_observations = training_observations.reshape([int(SPLIT / NUMBER_OF_STEPS), NUMBER_OF_STEPS, -1])
   model_actions = policy(torch.as_tensor(training_observations, dtype=torch.float32))
   teacher_actions = torch.as_tensor(training_actions, dtype=torch.long)
@@ -42,6 +43,7 @@ for step in range(STEPS):
   loss.backward()
   optimizer.step()
 
+  policy.eval()
   validation_observations = validation_observations.reshape([int(VALIDATION_SIZE / NUMBER_OF_STEPS), NUMBER_OF_STEPS, -1])
   validation_model_actions = policy(torch.as_tensor(validation_observations, dtype=torch.float32))
   validation_teacher_actions = torch.as_tensor(validation_actions, dtype=torch.long)
