@@ -4,13 +4,12 @@ class Policy(torch.nn.Module):
 
   def __init__(self, state_space, action_space):
     super(Policy, self).__init__()
-    self.model = torch.nn.Sequential(
-      torch.nn.Linear(state_space, 16, bias=False),
-      torch.nn.Dropout(),
-      torch.nn.ReLU(),
-      torch.nn.Linear(16, action_space, bias=False),
+    width = 64
+    self.lstm = torch.nn.LSTM(input_size = state_space, hidden_size = width, batch_first = True)
+    self.project_to_output = torch.nn.Sequential(
+      torch.nn.Linear(width, action_space, bias=False),
       torch.nn.Softmax()
     )
 
-  def forward(self, x):    
-    return self.model(x)
+  def forward(self, x):
+    return self.project_to_output(self.lstm(x)[0])

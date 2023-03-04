@@ -6,6 +6,7 @@ import os
 from datetime import datetime
 from PIL import Image
 import gymnasium as gym
+import numpy as np
 from policy import Policy
 
 env = gym.make('CartPole-v1', render_mode='rgb_array')
@@ -34,16 +35,22 @@ states.append({
   "terminated": False
 })
 
+run_observations = []
+
 for step in range(FRAMES):
   print(f"Step: {step}/{FRAMES}")
+  # The model is an LSTM now, so we'll keep track of the last three observations.
+  run_observations.append(observation)
+  run_observations = run_observations[:3]
+
   image = env.render()
   if (step < 1000):
     frame = Image.fromarray(image)
     frame.save(f"outputs/{run_name}/{step}.png")
 
   if step % STEPS_PER_ACTION == 0:
-    action_probabilities = policy(torch.as_tensor(observation).unsqueeze(0))[0]
-    action = torch.distributions.Categorical(action_probabilities).sample().item()
+    action_probabilities = policy(torch.as_tensor(np.array(run_observations)).unsqueeze(0))[0]
+    action = torch.distributions.Categorical(action_probabilities[-1]).sample().item()
   actions.append(action)
 
   observation, reward, terminated, truncated, info = env.step(action)
