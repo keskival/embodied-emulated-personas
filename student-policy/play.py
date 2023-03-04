@@ -41,7 +41,7 @@ for step in range(FRAMES):
   print(f"Step: {step}/{FRAMES}")
   # The model is an LSTM now, so we'll keep track of the last three observations.
   run_observations.append(observation)
-  run_observations = run_observations[:3]
+  run_observations = run_observations[-3:]
 
   image = env.render()
   if (step < 1000):
@@ -50,6 +50,7 @@ for step in range(FRAMES):
 
   if step % STEPS_PER_ACTION == 0:
     action_probabilities = policy(torch.as_tensor(np.array(run_observations)).unsqueeze(0))[0]
+    print(action_probabilities)
     action = torch.distributions.Categorical(action_probabilities[-1]).sample().item()
   actions.append(action)
 
