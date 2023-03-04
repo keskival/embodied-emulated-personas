@@ -50,7 +50,6 @@ for step in range(FRAMES):
 
   if step % STEPS_PER_ACTION == 0:
     action_probabilities = policy(torch.as_tensor(np.array(run_observations)).unsqueeze(0))[0]
-    print(action_probabilities)
     action = torch.distributions.Categorical(action_probabilities[-1]).sample().item()
   actions.append(action)
 
