@@ -76,7 +76,7 @@ The captured observations and actions are used to train the student model in [st
 We ran a ChatGPT agent prompted to emulate Sir Isaac Newton personality, although with the new ChatGPT API that is somewhat less dramatic than doing the same with DaVinci text completion API.
 In practice we just tell ChatGPT that it is Sir Isaac Newton, and describe the CartPole task it will have to perform.
 
-Then we imitation learn the policy from ChatGPT demonstration by an agent which has a proper embodiment, direct and full observation of the game state, and direct control over the action space. Note that the student network doesn't perceive game rewards and isn't trained to optimize for them. It is simply trained to imitate the ChatGPT which was prompted to imitate Sir Isaac Newton.
+Then we imitation learn the policy from ChatGPT emulated persona demonstration by an agent which has a proper embodiment, direct and full observation of the game state, and direct control over the action space. Note that the student network doesn't perceive game rewards and isn't trained to optimize for them. It is simply trained to imitate the ChatGPT emulated persona which was prompted to imitate Sir Isaac Newton.
 
 Mean scores:
 - Newton chatbot: 24.378049
