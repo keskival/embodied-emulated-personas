@@ -22,7 +22,7 @@ writer = SummaryWriter()
 
 policy = Policy(4, 2)
 
-optimizer = torch.optim.Adam(policy.parameters(), lr=1e-5)
+optimizer = torch.optim.Adam(policy.parameters(), lr=1e-2)
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=3000, gamma=0.5)
 
 NUMBER_OF_STEPS = 2
