@@ -16,6 +16,14 @@ to a file named `apikey.json` containing following:
 
 ## Output
 
+Newton chatbot achieves a performance that is not extremely good, but is significantly better than random walk.
+
+Mean scores:
+- Newton chatbot: 24.378049
+- Random walk: 19.05851
+
+This is expected, as zero-shot CartPole is an unsolved problem, it is a difficult task for humans as well, and chatbots tend to be bad at mechanical tasks.
+
 [The animated gif](./newton-zeroshot-cartpole.gif).
 
 Example result for one partial episode:
