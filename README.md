@@ -18,6 +18,14 @@ Getting from that point to true embodiment can be done for example as follows:
 - Hook up the LLM chatbot to this body, and let it perform a lot of tasks in that body and environment.
 - Train the neural agent with imitation learning based on the LLM chatbot teaching.
 
+## Embodiment
+
+Whereas standard LLM chatbots do not directly perceive their environment and do not have direct action capabilities, they are able to imagine or hallucinate they have such capabilities. This allows us to play out scenarios where the chatbots utilize such interface abstractions, and we can record those scenarios as episodes. We in effect define a system with inputs and outputs inside the large language model substrate.
+
+We can furthermore design a machine learning agent which is embodied, which has direct sensory inputs and a direct capability of action. These are abundantly featured in reinforcement learning field. We can train such an agent with imitation learning with the episodic information recorded from the LLM chatbot. This in effect makes this agent learn what it is to be embodied but still reflect the policy or behavioral judgements of the chatbot persona. The embodied agent perceives real observations which can be sound and images instead of just textual descriptions of the same. The embodied agent reacts to these inputs directly through its own action interfaces without emulating the persona in language domain, but instead directly performing the actions.
+
+Training such an agent produces a projection of the emulated persona sofar as the played out scenarios present features of that persona. These features will be inverse-modelled through the defined virtual system envelope capturing virtual inputs and outputs inside the large language model, thus in effect lifting this emulated system out of the LLM substrate into an embodiment where it is directly executed instead of being emulated as language auto-regression.
+
 ## Plan
 
 The goal is to get a proof-of-concept done, nothing too fancy. For this, we can leverage simple Farama Gymnasium environments: https://gymnasium.farama.org/
@@ -88,6 +96,24 @@ Mean scores:
 It wasn't possible to train a deep neural network as a student network because the small amount of data makes it very susceptible to overfitting. XGBoost worked much better.
 
 We note that the performance of the Sir Isaac Newton is replicate at some perceivable level in the embodied agent, which achieves higher than random scores even if it isn't trained to optimixe for score.
+
+What we have shown:
+- It is possible to emulate an LLM chatbot persona and make it perform a task which relates to being embodied.
+- It is possible to capture the inputs and outputs of such an emulated persona from the virtual system boundaries.
+- It is possible to use these captured inputs and outputs to train a separate embodied machine learning agent model.
+- This separately trained agent can incorporate some salient features of the original LLM chatbot.
+
+What we haven't shown:
+- That the trained studen model incorporated policy features related to the emulated persona, and not just policy features from common sense derived from ChatGPT training corpus or the task description prompting itself.
+- That Sir Isaac Newton was actually reincarnated in a virtual CartPole environment in any non-negligible fashion.
+
+### Suggested further work:
+
+Define a game which relates to an embodiment, where the chatbot can actually emulate the persona in question. For example, judge whether a specific animal is cute or not, a somewhat subjective topic. The chatbot can get image caption as text, while the student ML agent can get the actual image.
+
+Test this with different emulated personas which have different opinions about cute animals.
+
+The above would show that it is indeed the personality of the emulated persona which is adopted by the embodied student agent, not the prompt or generic LLM idiosyncrasies, although in this particular case the student agent wouldn't have action capabilities, only observational senses.
 
 ## How To Take Part
 
