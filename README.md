@@ -45,16 +45,6 @@ Requirements for the environment:
 
 Possible environments:
 
-### [Blackjack](https://gymnasium.farama.org/environments/toy_text/blackjack/)
-
-Benefits:
-- Simple, won't require a huge neural network or long training.
-- Can be described simply as text.
-- Shows characteristics of the persona in how much risk they tolerate. This can be varied with prompting.
-
-Issues:
-- Doesn't really add a proper extra sense, as the observations can be fully described in text.
-
 ### [CartPole](https://gymnasium.farama.org/environments/classic_control/cart_pole/)
 
 Benefits:
