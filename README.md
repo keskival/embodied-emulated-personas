@@ -85,16 +85,16 @@ Mean scores:
 
 It wasn't possible to train a deep neural network as a student network because the small amount of data makes it very susceptible to overfitting. XGBoost worked much better.
 
-We note that the performance of the Sir Isaac Newton is replicate at some perceivable level in the embodied agent, which achieves higher than random scores even if it isn't trained to optimixe for score.
+We note that the performance of the Sir Isaac Newton is replicated at some perceivable level in the embodied agent, which achieves higher than random scores even if it isn't trained to optimize for score.
 
 What we have shown:
 - It is possible to emulate an LLM chatbot persona and make it perform a task which relates to being embodied.
 - It is possible to capture the inputs and outputs of such an emulated persona from the virtual system boundaries.
 - It is possible to use these captured inputs and outputs to train a separate embodied machine learning agent model.
-- This separately trained agent can incorporate some salient features of the original LLM chatbot.
+- This separately trained agent can incorporate some salient features of the original LLM chatbot emulated persona.
 
 What we haven't shown:
-- That the trained studen model incorporated policy features related to the emulated persona, and not just policy features from common sense derived from ChatGPT training corpus or the task description prompting itself.
+- That the trained student model incorporated policy features related to the emulated (and by extension the real natural) persona, and not just policy features from common sense derived from ChatGPT training corpus or the task description prompting itself.
 - That Sir Isaac Newton was actually reincarnated in a virtual CartPole environment in any non-negligible fashion.
 
 ### Suggested further work:
