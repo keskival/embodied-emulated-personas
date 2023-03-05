@@ -103,7 +103,7 @@ Define a game which relates to an embodiment, where the chatbot can actually emu
 
 Test this with different emulated personas which have different opinions about cute animals.
 
-The above would show that it is indeed the personality of the emulated persona which is adopted by the embodied student agent, not the prompt or generic LLM idiosyncrasies, although in this particular case the student agent wouldn't have action capabilities, only observational senses.
+The above would show that it is indeed the personality of the emulated persona which is adopted by the embodied student agent, not the prompt or generic LLM idiosyncrasies, although in this particular case the student agent wouldn't have action capabilities, only observational senses. Regardless, we showed the full embodiment separately in the CartPole already.
 
 ## How To Take Part
 
