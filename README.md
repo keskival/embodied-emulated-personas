@@ -105,6 +105,18 @@ Test this with different emulated personas which have different opinions about c
 
 The above would show that it is indeed the personality of the emulated persona which is adopted by the embodied student agent, not the prompt or generic LLM idiosyncrasies, although in this particular case the student agent wouldn't have action capabilities, only observational senses. Regardless, we showed the full embodiment separately in the CartPole already.
 
+## Reference
+
+Embodied Emulated Personas
+
+```
+@article{keskival2023embodied,
+  title={Embodied Emulated Personas},
+  author={Keski-Valkama, Tero},
+  year={2023}
+}
+```
+
 ## How To Take Part
 
 Join the Discord server and introduce yourself. Then do what you want. PRs and Wiki contributions are welcome.
