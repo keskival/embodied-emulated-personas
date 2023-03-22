@@ -124,5 +124,6 @@ Join the Discord server and introduce yourself. Then do what you want. PRs and W
 ## Links
 
 - Discord server: https://discord.com/invite/hzD7NDz8sY
+- Repository: [https://github.com/keskival/embodied-emulated-personas](https://github.com/keskival/embodied-emulated-personas)
 
 All this started from this musing (see comments as well): https://www.linkedin.com/feed/update/urn:li:activity:7034227075800576001/
