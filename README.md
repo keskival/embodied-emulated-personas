@@ -18,6 +18,14 @@ Getting from that point to true embodiment can be done for example as follows:
 - Hook up the LLM chatbot to this body, and let it perform a lot of tasks in that body and environment.
 - Train the neural agent with imitation learning based on the LLM chatbot teaching.
 
+![](imgs/newton.jpg)
+
+Chatbot zero-shot teacher:
+![](chatbot-gym/newton-zeroshow-cartpole.gif)
+
+Student:
+![](student-policy/newton-embodied.gif)
+
 ## Embodiment
 
 Whereas standard LLM chatbots do not directly perceive their environment and do not have direct action capabilities, they are able to imagine or hallucinate they have such capabilities. This allows us to play out scenarios where the chatbots utilize such interface abstractions, and we can record those scenarios as episodes. We in effect define a system with inputs and outputs inside the large language model substrate.
