@@ -21,9 +21,11 @@ Getting from that point to true embodiment can be done for example as follows:
 ![](imgs/newton.jpg)
 
 Chatbot zero-shot teacher:
-![](chatbot-gym/newton-zeroshow-cartpole.gif)
+
+![](chatbot-gym/newton-zeroshot-cartpole.gif)
 
 Student:
+
 ![](student-policy/newton-embodied.gif)
 
 ## Embodiment
