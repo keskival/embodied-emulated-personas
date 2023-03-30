@@ -20,6 +20,8 @@ Getting from that point to true embodiment can be done for example as follows:
 
 ![](imgs/newton.jpg)
 
+![](imgs/embodiment.jpg)
+
 Chatbot zero-shot teacher:
 
 ![](chatbot-gym/newton-zeroshot-cartpole.gif)
